@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="assets/css/style.css">
+  <title>Giphy</title>
+</head>
+
+<body>
+
+  <main class="container">
+    <h1>World of Sports</h1>
+
+    <form id="sport-form">
+      <label for="sportAddOn"><strong>SHOOTOUT</strong></label>
+      <input type="text" id="sportAddOn">
+
+      <input id="addSport" type="submit" value="Launch">
+    </form>
+    <div id="buttonView"></div>
+    <div id="gifsAppear"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+
+      // <!-- Create Array of Sports and save to TOPICS-->
+      var topics = ["UEFA", "La Liga", "EPL", "Liverpool FC", "Barcelona FC", "Lionel Messi", "Phillipe Coutinho", "Formula One", "Moto GP", "SBK Superbike"];
+
+      // Function for displaying Sports data
+      function renderButtons() {
+        // Delete content so you dont repeat buttons
+        $("#buttonView").empty();
+
+        // <!-- Loop through array and create buttons in HTML-->
+        topics.forEach(function (sport) {
+          // create the button
+          var $sportBtn = $("<button>");
+
+          // give button attributes
+          $sportBtn
+            .text(sport)
+            .attr("data-name", sport);
+
+          // add button to page
+          $("#buttonView").append($sportBtn);
+        }
+
+        )
+      }
+
+      // Create function to add more buttons
+      $("#addSport").on("click", function (event) {
+
+        // event.preventDefault() prevents submit button from trying to send a form.
+        event.preventDefault();
+
+        var sportName = $("#sportAddOn").val();
+
+        if (sportName === ""){
+          return false;
+        }
+
+        topics.push(sportName);
+        renderButtons();
+        $("#sportAddOn").val("")
+
+        
+      })
+ // <!-- Create  -->
+      renderButtons();
+
+      // <!-- create giphy for each button -->
+     
+
+$("sportBtn").on("click", function () {
+
+  var topics = $(this).attr("data-topics");
+
+  // build query url to search giphy for each sport
+  var queryUrl = "https://api.giphy.com/v1/gifs/search?q=" +
+        topics + "&api_key=dc6zaTOxFJmzC&limit=10"
+
+  // performing our AJAX GET response
+  // After the data comes back from the API
+  $.ajax({
+    url: queryURL,
+    method: "GET"
+  }).then(function(response) {
+
+    // storing an array of results in the results variable
+    var results = response.data;
+    
+    // looping over every result item
+    for (var i = 0; i < results.lenght; i++) {
+
+      // only take action if the photo has an appropriate rating
+      if (results[i].rating !== "r" && results[i].rating !== "pg-13") {
+
+        var gifDiv = $("<div>");
+
+        var rating = results[i].rating;
+
+        var p = $("<p>").text("rating:" + rating);
+
+        var sportImg = $("<img>");
+
+        sportImg.attr("src", result[i].images.fixed_height.url);
+
+        gifDiv.append(p);
+        gifDiv.append(sportImg);
+
+        $("#gifsAppear").prepend(gifDiv)
+      }
+    }
+  })
+})
+     
+
+
+
+
+    </script>
+    <!-- end of page -->
+</body>
+
+</html>
