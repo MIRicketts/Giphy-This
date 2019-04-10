@@ -14,7 +14,12 @@
 <body>
 
   <main class="container">
-    <h1>World of Sports</h1>
+    <div class="jumbotron jumbotron-fluid bg-dark text-light">
+      <div class="container">
+        <h1 class="display-4 text-center"><strong>World of Sports</strong></h1>
+
+      </div>
+    </div>
 
     <form id="sport-form">
       <label for="sportAddOn"><strong>SHOOTOUT</strong></label>
@@ -22,7 +27,7 @@
 
       <input id="addSport" type="submit" value="Launch">
     </form>
-    <div id="buttonView"></div>
+    <div id="buttonView" class="btn btn-lg"> </div>
     <div id="gifsAppear"></div>
     </div>
 
@@ -63,7 +68,7 @@
 
         var sportName = $("#sportAddOn").val();
 
-        if (sportName === ""){
+        if (sportName === "") {
           return false;
         }
 
@@ -71,57 +76,57 @@
         renderButtons();
         $("#sportAddOn").val("")
 
-        
+
       })
- // <!-- Create  -->
+      // <!-- Create  -->
       renderButtons();
 
       // <!-- create giphy for each button -->
-     
 
-$("sportBtn").on("click", function () {
 
-  var topics = $(this).attr("data-topics");
+      $("sportBtn").on("click", function () {
 
-  // build query url to search giphy for each sport
-  var queryUrl = "https://api.giphy.com/v1/gifs/search?q=" +
-        topics + "&api_key=dc6zaTOxFJmzC&limit=10"
+        var topics = $(this).attr("data-topics");
 
-  // performing our AJAX GET response
-  // After the data comes back from the API
-  $.ajax({
-    url: queryURL,
-    method: "GET"
-  }).then(function(response) {
+        // build query url to search giphy for each sport
+        var queryUrl = "https://api.giphy.com/v1/gifs/search?q=" +
+          topics + "&api_key=dc6zaTOxFJmzC&limit=10"
 
-    // storing an array of results in the results variable
-    var results = response.data;
-    
-    // looping over every result item
-    for (var i = 0; i < results.lenght; i++) {
+        // performing our AJAX GET response
+        // After the data comes back from the API
+        $.ajax({
+          url: queryURL,
+          method: "GET"
+        }).then(function (response) {
 
-      // only take action if the photo has an appropriate rating
-      if (results[i].rating !== "r" && results[i].rating !== "pg-13") {
+          // storing an array of results in the results variable
+          var results = response.data;
 
-        var gifDiv = $("<div>");
+          // looping over every result item
+          for (var i = 0; i < results.lenght; i++) {
 
-        var rating = results[i].rating;
+            // only take action if the photo has an appropriate rating
+            if (results[i].rating !== "r" && results[i].rating !== "pg-13") {
 
-        var p = $("<p>").text("rating:" + rating);
+              var gifDiv = $("<div>");
 
-        var sportImg = $("<img>");
+              var rating = results[i].rating;
 
-        sportImg.attr("src", result[i].images.fixed_height.url);
+              var p = $("<p>").text("rating:" + rating);
 
-        gifDiv.append(p);
-        gifDiv.append(sportImg);
+              var sportImg = $("<img>");
 
-        $("#gifsAppear").prepend(gifDiv)
-      }
-    }
-  })
-})
-     
+              sportImg.attr("src", result[i].images.fixed_height.url);
+
+              gifDiv.append(p);
+              gifDiv.append(sportImg);
+
+              $("#gifsAppear").prepend(gifDiv)
+            }
+          }
+        })
+      })
+
 
 
 
